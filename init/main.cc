@@ -2,6 +2,8 @@
 #include <vector>
 #include "scidf.h"
 #include "spade.h"
+#include <Kokkos_Core.hpp>
+#include "inc/local.h"
 
 using real_t = double;
 using flux_t = spade::fluid_state::flux_t<real_t>;
@@ -10,6 +12,10 @@ using cons_t = spade::fluid_state::cons_t<real_t>;
 
 int main(int argc, char** argv)
 {
+    Kokkos::initialize(argc, argv); {
+    }
+    Kokkos::finalize();
+
     spade::parallel::mpi_t group(&argc, &argv);
     
     const int nxb    = 4;
@@ -55,6 +61,7 @@ int main(int argc, char** argv)
     };
 
     spade::algs::fill_array(prim, ini);
+    test_kokkos::array_debug(prim);
     spade::io::output_vtk("output", "prim", prim);
     
     return 0;
