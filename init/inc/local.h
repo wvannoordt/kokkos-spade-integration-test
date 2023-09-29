@@ -13,7 +13,7 @@ namespace test_kokkos {
         const auto &grid = array.get_grid();
         auto array_img = array.image();
         const auto &geometry = grid.geometry(spade::partition::local);
-        int num_blocks = grid.num_local_blocks();
+        int num_blocks = grid.get_num_local_blocks();
         int num_cells_x = grid.get_num_cells(0);
         int num_cells_y = grid.get_num_cells(1);
         int num_cells_z = grid.get_num_cells(2);

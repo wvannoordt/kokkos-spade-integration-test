@@ -47,6 +47,7 @@ int main(int argc, char** argv)
     flux_t fill2 = 0.0;
 
     spade::grid::grid_array prim (grid, fill1, spade::device::best);
+    spade::grid::grid_array prim_2 (grid, fill1, spade::device::best);
     spade::grid::grid_array rhs  (grid, fill2, spade::device::best);
 
     auto ini = _sp_lambda (const spade::coords::point_t<real_t>& x)
@@ -60,7 +61,10 @@ int main(int argc, char** argv)
         return output;
     };
 
+    test_kokkos::fill_array_2(prim_2);
+
     spade::algs::fill_array(prim, ini);
+    prim -= prim_2;
     test_kokkos::array_debug(prim);
     spade::io::output_vtk("output", "prim", prim);
     
